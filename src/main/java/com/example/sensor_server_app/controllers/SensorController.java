@@ -46,6 +46,7 @@ public class SensorController {
         return convertToSensorDTO(sensorService.findOne(id)); // Jackson convert Person objects to JSON
     }
 
+    @PostMapping
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid SensorDTO sensorDTO,
                                              BindingResult bindingResult) {
         sensorValidator.validate(sensorDTO, bindingResult);
