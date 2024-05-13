@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Sensor")
@@ -21,14 +22,17 @@ public class Sensor {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "sensor")
+    private List<Measurement> measurements;
+
     public Sensor() {
 
     }
 
-    public Sensor(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+//    public Sensor(int id, String name) {
+//        this.id = id;
+//        this.name = name;
+//    } TODO
 
     public int getId() {
         return id;
@@ -53,4 +57,6 @@ public class Sensor {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+
 }
