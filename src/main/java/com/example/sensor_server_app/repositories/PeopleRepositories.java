@@ -1,6 +1,6 @@
-package com.example.FirstRestApp.repositories;
+package com.example.sensor_server_app.repositories;
 
-import com.example.FirstRestApp.models.Person;
+import com.example.sensor_server_app.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

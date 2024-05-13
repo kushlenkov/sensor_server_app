@@ -1,11 +1,11 @@
-package com.example.FirstRestApp.controllers;
+package com.example.sensor_server_app.controllers;
 
-import com.example.FirstRestApp.dto.PersonDTO;
-import com.example.FirstRestApp.models.Person;
-import com.example.FirstRestApp.services.PeopleService;
-import com.example.FirstRestApp.util.PersonErrorResponse;
-import com.example.FirstRestApp.util.PersonNotCreatedException;
-import com.example.FirstRestApp.util.PersonNotFoundException;
+import com.example.sensor_server_app.dto.PersonDTO;
+import com.example.sensor_server_app.models.Person;
+import com.example.sensor_server_app.services.PeopleService;
+import com.example.sensor_server_app.util.PersonErrorResponse;
+import com.example.sensor_server_app.exceptions.PersonNotCreatedException;
+import com.example.sensor_server_app.exceptions.PersonNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,20 +15,19 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/people")
 public class PeopleController {
-
     private final PeopleService peopleService;
     private final ModelMapper modelMapper;
 
     @Autowired
     public PeopleController(PeopleService peopleService, ModelMapper modelMapper) {
         this.peopleService = peopleService;
+
         this.modelMapper = modelMapper;
     }
 
@@ -60,7 +59,7 @@ public class PeopleController {
                         .append(";");
             }
 
-            throw new PersonNotCreatedException(errorMessage.toString());
+            throw new PersonNotCreatedException(errorMessage.toString()); // Build NotCreated exception message!
         }
 
         peopleService.save(convertToPerson(personDTO));
@@ -72,7 +71,7 @@ public class PeopleController {
     @ExceptionHandler
     private ResponseEntity<PersonErrorResponse> handleException(PersonNotFoundException e) {
         PersonErrorResponse response = new PersonErrorResponse(
-                "Person with this id wasn`t found!",
+                "Person with this Id wasn`t found!",
                 System.currentTimeMillis()
         );
 

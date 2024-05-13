@@ -1,4 +1,4 @@
-package com.example.FirstRestApp.dto;
+package com.example.sensor_server_app.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -16,8 +16,6 @@ public class PersonDTO {
     @Email
     @NotEmpty(message = "Email should not be empty")
     private String email;
-
-
 
     public String getName() {
         return name;

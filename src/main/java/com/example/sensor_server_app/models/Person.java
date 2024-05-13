@@ -1,4 +1,4 @@
-package com.example.FirstRestApp.models;
+package com.example.sensor_server_app.models;
 
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.example.FirstRestApp.controllers;
+package com.example.sensor_server_app.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

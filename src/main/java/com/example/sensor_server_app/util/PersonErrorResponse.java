@@ -1,4 +1,4 @@
-package com.example.FirstRestApp.util;
+package com.example.sensor_server_app.util;
 
 public class PersonErrorResponse {
     private String message;

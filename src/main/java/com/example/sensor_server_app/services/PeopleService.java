@@ -1,8 +1,8 @@
-package com.example.FirstRestApp.services;
+package com.example.sensor_server_app.services;
 
-import com.example.FirstRestApp.models.Person;
-import com.example.FirstRestApp.repositories.PeopleRepositories;
-import com.example.FirstRestApp.util.PersonNotFoundException;
+import com.example.sensor_server_app.models.Person;
+import com.example.sensor_server_app.repositories.PeopleRepositories;
+import com.example.sensor_server_app.exceptions.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
