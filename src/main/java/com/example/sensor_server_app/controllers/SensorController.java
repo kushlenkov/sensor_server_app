@@ -5,7 +5,7 @@ import com.example.sensor_server_app.exceptions.SensorNotCreatedException;
 import com.example.sensor_server_app.exceptions.SensorNotFoundException;
 import com.example.sensor_server_app.models.Sensor;
 import com.example.sensor_server_app.services.SensorService;
-import com.example.sensor_server_app.util.SensorErrorResponse;
+import com.example.sensor_server_app.util.MeasurementErrorResponse;
 import com.example.sensor_server_app.util.SensorValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class SensorController {
         return convertToSensorDTO(sensorService.findOne(id)); // Jackson convert Person objects to JSON
     }
 
-    @PostMapping
+    @PostMapping("/registration")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid SensorDTO sensorDTO,
                                              BindingResult bindingResult) {
         sensorValidator.validate(sensorDTO, bindingResult);
@@ -73,8 +73,8 @@ public class SensorController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<SensorErrorResponse> handleException(SensorNotFoundException e) {
-        SensorErrorResponse response = new SensorErrorResponse(
+    private ResponseEntity<MeasurementErrorResponse> handleException(SensorNotFoundException e) {
+        MeasurementErrorResponse response = new MeasurementErrorResponse(
                 "Sensor with this Id wasn`t found!",
                 System.currentTimeMillis()
         );
@@ -84,8 +84,8 @@ public class SensorController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<SensorErrorResponse> handleException(SensorNotCreatedException e) {
-        SensorErrorResponse response = new SensorErrorResponse(
+    private ResponseEntity<MeasurementErrorResponse> handleException(SensorNotCreatedException e) {
+        MeasurementErrorResponse response = new MeasurementErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()
         );

@@ -1,29 +1,45 @@
 package com.example.sensor_server_app.dto;
 
-import com.example.sensor_server_app.models.Sensor;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class MeasurementDTO {
-    @Column(name = "id")
-    private int id;
+    @NotNull(message = "The value should not be null")
+    @Min(value = -100, message = "The value should be between -100 and 100")
+    @Max(value = 100, message = "The value should be between -100 and 100")
+    private double value;
 
-    @Column(name = "value")
-    @NotEmpty(message = "The value should not be empty")
-    @Size(min = -100, max = 100, message = "The value should be between -100 and 100")
-    private int value;
-
-    @Column(name = "raining")
-    @NotEmpty(message = "The raining should not be empty")
+    @NotNull(message = "The raining should not be null")
     private boolean raining;
 
-    @ManyToOne
-    @JoinColumn(name = "sensor_id", referencedColumnName ="id")
-    private Sensor sensor;
+    @NotNull(message = "The sensorDTO should not be null")
+    private SensorDTO sensor;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    // Jackson смотрит на название геттера, отсекает is и отсавляет название поля
+    public boolean isRaining() {
+        return raining;
+    }
+
+    public void setRaining(boolean raining) {
+        this.raining = raining;
+    }
+
+    // rename method for use with Jackson and Measurement class
+    public SensorDTO getSensor() {
+        return sensor;
+    }
+
+    // rename method for use with Jackson and Measurement class
+    public void setSensor(SensorDTO sensor) {
+        this.sensor = sensor;
+    }
 }

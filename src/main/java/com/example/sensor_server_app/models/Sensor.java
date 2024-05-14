@@ -29,11 +29,6 @@ public class Sensor {
 
     }
 
-//    public Sensor(int id, String name) {
-//        this.id = id;
-//        this.name = name;
-//    } TODO
-
     public int getId() {
         return id;
     }
@@ -58,5 +53,11 @@ public class Sensor {
         this.createdAt = createdAt;
     }
 
+    public List<Measurement> getMeasurements() {
+        return measurements;
+    }
 
+    public void setMeasurements(List<Measurement> measurements) {
+        this.measurements = measurements;
+    }
 }

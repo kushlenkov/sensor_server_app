@@ -1,7 +1,9 @@
 package com.example.sensor_server_app.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -14,16 +16,14 @@ public class Measurement {
     private int id;
 
     @Column(name = "value")
-    @NotEmpty(message = "The value should not be empty")
-    @Size(min = -100, max = 100, message = "The value should be between -100 and 100")
-    private int value;
+    @NotNull(message = "The value should not be empty")
+    @Min(value = -100, message = "The value should be between -100 and 100")
+    @Max(value = 100, message = "The value should be between -100 and 100")
+    private double value;
 
     @Column(name = "raining")
-    @NotEmpty(message = "The raining should not be empty")
+    @NotNull(message = "The raining should not be empty")
     private boolean raining;
-
-//    @NotEmpty
-//    private String sensorName;
 
     @ManyToOne
     @JoinColumn(name = "sensor_id", referencedColumnName ="id")
@@ -31,16 +31,6 @@ public class Measurement {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    public Measurement() {
-
-    }
-
-    public Measurement(int id, int value, boolean raining) {
-        this.id = id;
-        this.value = value;
-        this.raining = raining;
-    }
 
     public int getId() {
         return id;
@@ -50,7 +40,7 @@ public class Measurement {
         this.id = id;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -58,6 +48,7 @@ public class Measurement {
         this.value = value;
     }
 
+    // Jackson смотрит на название геттера, отсекает is и отсавляет название поля
     public boolean isRaining() {
         return raining;
     }
@@ -81,4 +72,5 @@ public class Measurement {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 }

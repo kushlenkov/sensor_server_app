@@ -1,10 +1,10 @@
 package com.example.sensor_server_app.util;
 
-public class SensorErrorResponse {
+public class MeasureErrorResponse {
     private String message;
     private long timestamp;
 
-    public SensorErrorResponse(String message, long timestamp) {
+    public MeasureErrorResponse(String message, long timestamp) {
         this.message = message;
         this.timestamp = timestamp;
     }
