@@ -8,28 +8,28 @@ public class MeasurementDTO {
     @NotNull(message = "The value should not be null")
     @Min(value = -100, message = "The value should be between -100 and 100")
     @Max(value = 100, message = "The value should be between -100 and 100")
-    private double value;
+    private Double value;
 
     @NotNull(message = "The raining should not be null")
-    private boolean raining;
+    private Boolean raining;
 
     @NotNull(message = "The sensorDTO should not be null")
     private SensorDTO sensor;
 
-    public double getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
     // Jackson смотрит на название геттера, отсекает is и отсавляет название поля
-    public boolean isRaining() {
+    public Boolean isRaining() {
         return raining;
     }
 
-    public void setRaining(boolean raining) {
+    public void setRaining(Boolean raining) {
         this.raining = raining;
     }
 

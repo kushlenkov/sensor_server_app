@@ -19,6 +19,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.sensor_server_app.util.ErrorsUtil.returnErrorsToClient;
+
 @RestController
 @RequestMapping("/sensors")
 public class SensorController {
@@ -49,25 +51,15 @@ public class SensorController {
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> create(@RequestBody @Valid SensorDTO sensorDTO,
                                              BindingResult bindingResult) {
-        sensorValidator.validate(sensorDTO, bindingResult);
+        Sensor sensorToAdd = convertToSensor(sensorDTO);
+
+        sensorValidator.validate(sensorToAdd, bindingResult); // Add changes needed check with Postman
 
         if (bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage
-                        .append(error.getField())
-                        .append(" - ")
-                        .append(error.getDefaultMessage())
-                        .append(";");
-            }
-
-            throw new SensorNotCreatedException(errorMessage.toString());
+            returnErrorsToClient(bindingResult);
         }
 
-        sensorService.save(convertToSensor(sensorDTO));
-
+        sensorService.save(sensorToAdd);
         // send HTTP response with empty body and status 200
         return ResponseEntity.ok(HttpStatus.OK);
     }

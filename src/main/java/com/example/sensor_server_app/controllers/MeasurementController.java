@@ -19,6 +19,8 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.sensor_server_app.util.ErrorsUtil.returnErrorsToClient;
+
 @RestController
 @RequestMapping("/measurements")
 public class MeasurementController {
@@ -54,26 +56,17 @@ public class MeasurementController {
         Measurement measurementToAdd = convertToMeasurement(measurementDTO);
 
         measurementValidator.validate(measurementToAdd, bindingResult);
+
         if (bindingResult.hasErrors()) {
-            StringBuilder errorMessage = new StringBuilder();
-
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            for (FieldError error : errors) {
-                errorMessage
-                        .append(error.getField())
-                        .append(" - ")
-                        .append(error.getDefaultMessage())
-                        .append(";");
-            }
-
-            throw new MeasurementNotCreatedException(errorMessage.toString());
+            returnErrorsToClient(bindingResult); // interesting: import static methods????????
         }
 
         measurementService.add(measurementToAdd);
-
         // send HTTP response with empty body and status 200
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
 
     @ExceptionHandler
     private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementNotFoundException e) {
