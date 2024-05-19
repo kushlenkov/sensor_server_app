@@ -1,7 +1,7 @@
 package com.example.sensor_server_app.controllers;
 
 import com.example.sensor_server_app.dto.MeasurementDTO;
-import com.example.sensor_server_app.exceptions.MeasurementNotCreatedException;
+import com.example.sensor_server_app.exceptions.ControllerEntityValidationException;
 import com.example.sensor_server_app.exceptions.MeasurementNotFoundException;
 import com.example.sensor_server_app.models.Measurement;
 import com.example.sensor_server_app.services.MeasurementService;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,7 +57,7 @@ public class MeasurementController {
         measurementValidator.validate(measurementToAdd, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            returnErrorsToClient(bindingResult); // interesting: import static methods????????
+            returnErrorsToClient(bindingResult); // interesting: import static methods???
         }
 
         measurementService.add(measurementToAdd);
@@ -66,12 +65,16 @@ public class MeasurementController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @GetMapping("/rainyDaysCount")
+    public Long getRainyDaysCount() {
+        return measurementService.findAll().stream().filter(Measurement::isRaining).count();
+    }
 
-
+    // For method - getMeasurement
     @ExceptionHandler
     private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementNotFoundException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
-                "Measurement with this Id wasn`t found!",
+                "Measurement with this Id was`t found!",
                 System.currentTimeMillis()
         );
 
@@ -79,8 +82,9 @@ public class MeasurementController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response); // NOT_FUND - 404 status
     }
 
+    // For method - add
     @ExceptionHandler
-    private ResponseEntity<MeasurementErrorResponse> handleException(MeasurementNotCreatedException e) {
+    private ResponseEntity<MeasurementErrorResponse> handleException(ControllerEntityValidationException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
                 e.getMessage(), // Build error message in another method
                 System.currentTimeMillis()

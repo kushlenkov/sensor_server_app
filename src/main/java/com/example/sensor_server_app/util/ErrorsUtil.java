@@ -1,6 +1,6 @@
 package com.example.sensor_server_app.util;
 
-import com.example.sensor_server_app.exceptions.MeasurementNotCreatedException;
+import com.example.sensor_server_app.exceptions.ControllerEntityValidationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -16,10 +16,10 @@ public class ErrorsUtil {
             errorMessage
                     .append(error.getField())
                     .append(" - ")
-                    .append(error.getDefaultMessage()) // TODO
+                    .append(error.getDefaultMessage() == null ? error.getCode() : error.getDefaultMessage()) // ??
                     .append(";");
         }
 
-        throw new MeasurementNotCreatedException(errorMessage.toString());
+        throw new ControllerEntityValidationException(errorMessage.toString());
     }
 }

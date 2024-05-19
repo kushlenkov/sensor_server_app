@@ -1,7 +1,7 @@
 package com.example.sensor_server_app.controllers;
 
 import com.example.sensor_server_app.dto.SensorDTO;
-import com.example.sensor_server_app.exceptions.SensorNotCreatedException;
+import com.example.sensor_server_app.exceptions.ControllerEntityValidationException;
 import com.example.sensor_server_app.exceptions.SensorNotFoundException;
 import com.example.sensor_server_app.models.Sensor;
 import com.example.sensor_server_app.services.SensorService;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -64,6 +63,7 @@ public class SensorController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    // For method getSensor
     @ExceptionHandler
     private ResponseEntity<MeasurementErrorResponse> handleException(SensorNotFoundException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
@@ -75,8 +75,9 @@ public class SensorController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response); // NOT_FUND - 404 status
     }
 
+    // For method create
     @ExceptionHandler
-    private ResponseEntity<MeasurementErrorResponse> handleException(SensorNotCreatedException e) {
+    private ResponseEntity<MeasurementErrorResponse> handleException(ControllerEntityValidationException e) {
         MeasurementErrorResponse response = new MeasurementErrorResponse(
                 e.getMessage(),
                 System.currentTimeMillis()

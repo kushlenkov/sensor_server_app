@@ -1,6 +1,5 @@
 package com.example.sensor_server_app.util;
 
-import com.example.sensor_server_app.dto.SensorDTO;
 import com.example.sensor_server_app.models.Measurement;
 import com.example.sensor_server_app.services.SensorService;
 import org.springframework.beans.factory.annotation.Autowired;
