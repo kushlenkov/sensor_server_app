@@ -1,6 +1,7 @@
 package com.example.sensor_server_app.controllers;
 
 import com.example.sensor_server_app.dto.MeasurementDTO;
+import com.example.sensor_server_app.dto.MeasurementsResponseDTO;
 import com.example.sensor_server_app.exceptions.ControllerEntityValidationException;
 import com.example.sensor_server_app.exceptions.MeasurementNotFoundException;
 import com.example.sensor_server_app.models.Measurement;
@@ -15,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.sensor_server_app.util.ErrorsUtil.returnErrorsToClient;
@@ -36,11 +36,13 @@ public class MeasurementController {
         this.modelMapper = modelMapper;
     }
 
+    // Обычно список из элементов оборачивается в один объект для пересылки
     @GetMapping
-    public List<MeasurementDTO> getMeasurements() {
-        return measurementService.findAll()
+    public MeasurementsResponseDTO getMeasurements() {
+        return new MeasurementsResponseDTO(
+                measurementService.findAll()
                 .stream().map(this::convertToMeasurementDTO)
-                .collect(Collectors.toList()); // Jackson convert People objects to JSON
+                .collect(Collectors.toList())); // Jackson convert People objects to JSON
     }
 
     @GetMapping("/{id}")

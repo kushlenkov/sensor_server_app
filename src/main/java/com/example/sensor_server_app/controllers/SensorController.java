@@ -1,6 +1,7 @@
 package com.example.sensor_server_app.controllers;
 
 import com.example.sensor_server_app.dto.SensorDTO;
+import com.example.sensor_server_app.dto.SensorsResponseDTO;
 import com.example.sensor_server_app.exceptions.ControllerEntityValidationException;
 import com.example.sensor_server_app.exceptions.SensorNotFoundException;
 import com.example.sensor_server_app.models.Sensor;
@@ -15,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.example.sensor_server_app.util.ErrorsUtil.returnErrorsToClient;
@@ -34,11 +34,12 @@ public class SensorController {
         this.modelMapper = modelMapper;
     }
 
+    // Обычно список из элементов оборачивается в один объект для пересылки
     @GetMapping()
-    public List<SensorDTO> getSensors() {
-        return sensorService.findAll()
+    public SensorsResponseDTO getSensors() {
+        return new SensorsResponseDTO(sensorService.findAll()
                 .stream().map(this::convertToSensorDTO)
-                .collect(Collectors.toList()); // Jackson convert People objects to JSON
+                .collect(Collectors.toList())); // Jackson convert People objects to JSON
     }
 
     @GetMapping("/{id}")
