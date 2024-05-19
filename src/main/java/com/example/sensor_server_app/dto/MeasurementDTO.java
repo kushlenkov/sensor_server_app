@@ -3,6 +3,7 @@ package com.example.sensor_server_app.dto;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 public class MeasurementDTO {
     @NotNull(message = "The value should not be null")
@@ -15,6 +16,8 @@ public class MeasurementDTO {
 
     @NotNull(message = "The sensorDTO should not be null")
     private SensorDTO sensor;
+
+    private LocalDateTime createdAt;
 
     public Double getValue() {
         return value;
@@ -41,5 +44,17 @@ public class MeasurementDTO {
     // rename method for use with Jackson and Measurement class
     public void setSensor(SensorDTO sensor) {
         this.sensor = sensor;
+    }
+
+    public Boolean getRaining() {
+        return raining;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
